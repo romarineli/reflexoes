@@ -30,6 +30,9 @@ _CONTENT_KEY = os.environ.get("CONTENT_API_KEY")   # auth máquina-a-máquina p/
 @app.middleware("http")
 async def _auth(request: Request, call_next):
     path = request.url.path
+    # Health check do ECS/ALB
+    if path == "/health":
+        return await call_next(request)
     # API de entrega (consumida pelo backend do app): autentica por X-API-Key
     if path.startswith("/content/"):
         if _CONTENT_KEY and not secrets.compare_digest(
@@ -170,6 +173,9 @@ def content_status(app: str, publico: str) -> dict:
 
 
 # ---------- front ----------
+@app.get("/health", include_in_schema=False)
+def health():
+    return {"status": "ok"}
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(WEBUI / "index.html")
