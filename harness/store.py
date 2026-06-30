@@ -86,10 +86,17 @@ def init() -> None:
             id {_ID},
             app VARCHAR(40) NOT NULL, publico VARCHAR(40) NOT NULL, botao VARCHAR(40) NOT NULL,
             dia INTEGER, tema VARCHAR(255) NOT NULL,
-            texto TEXT NOT NULL, validacao TEXT NOT NULL, ok INTEGER NOT NULL,
+            texto TEXT NOT NULL, texto_en TEXT, texto_es TEXT,
+            validacao TEXT NOT NULL, ok INTEGER NOT NULL,
             veredito VARCHAR(20), comentario TEXT,
             created_at VARCHAR(32) NOT NULL, feedback_at VARCHAR(32)
         )""")
+    # migração idempotente p/ tabelas que já existem sem as colunas de idioma (ex.: produção)
+    for col in ("texto_en", "texto_es"):
+        try:
+            _exec(f"ALTER TABLE itens ADD COLUMN {col} TEXT")
+        except Exception:
+            pass
 
 
 def _now() -> str:
@@ -97,11 +104,11 @@ def _now() -> str:
 
 
 def salvar_item(app: str, publico: str, botao: str, dia: int | None, tema: str,
-                texto: str, validacao: dict) -> int:
-    cols = "app,publico,botao,dia,tema,texto,validacao,ok,created_at"
-    vals = (app, publico, botao, dia, tema, texto,
+                texto: str, validacao: dict, texto_en: str = "", texto_es: str = "") -> int:
+    cols = "app,publico,botao,dia,tema,texto,texto_en,texto_es,validacao,ok,created_at"
+    vals = (app, publico, botao, dia, tema, texto, texto_en, texto_es,
             json.dumps(validacao, ensure_ascii=False), int(validacao["ok"]), _now())
-    ph = ",".join([PH] * 9)
+    ph = ",".join([PH] * 11)
     if IS_PG:   # Postgres devolve o id via RETURNING
         return _exec(f"INSERT INTO itens({cols}) VALUES({ph}) RETURNING id", vals, fetch="one")["id"]
     return _exec(f"INSERT INTO itens({cols}) VALUES({ph})", vals, fetch="lastid")
@@ -166,16 +173,17 @@ def fetch_chunks(linhas: list[str]) -> list[dict]:
         return []
 
 
-def conteudo_aprovado(app: str, publico: str, dia: int) -> dict:
+def conteudo_aprovado(app: str, publico: str, dia: int, idioma: str = "pt") -> dict:
+    col = {"en": "texto_en", "es": "texto_es"}.get(idioma)
     rows = [r for r in listar(app=app, publico=publico, status="avaliado")
             if r["dia"] == dia and r["veredito"] in ("gostei", "ressalva")]
     blocos: dict[str, str] = {}
     tema = None
     for r in rows:
         if r["botao"] not in blocos:
-            blocos[r["botao"]] = r["texto"]
+            blocos[r["botao"]] = (r.get(col) if col else None) or r["texto"]   # fallback PT
             tema = tema or r["tema"]
-    return {"tema": tema, "blocos": blocos}
+    return {"tema": tema, "blocos": blocos, "idioma": idioma}
 
 
 def dias_aprovados(app: str, publico: str, botoes_esperados: list[str]) -> list[dict]:

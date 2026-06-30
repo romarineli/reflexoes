@@ -53,6 +53,12 @@
   .val.ok{color:var(--ok)} .val.warn{color:var(--warn)}
   .texto{white-space:pre-wrap;font-size:15.5px;line-height:1.6;color:#33454d;
          border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:4px 0 14px}
+  .trad{margin:-2px 0 12px}
+  .trad summary{cursor:pointer;color:var(--brand-d);font-weight:600;font-size:12.5px;list-style:none}
+  .trad .tl{white-space:pre-wrap;font-size:14px;line-height:1.55;color:#55636b;
+            margin:8px 0;padding-left:12px;border-left:2px solid var(--line)}
+  .trad .tl b{display:inline-block;font-size:10.5px;letter-spacing:.04em;background:#eef3f1;
+              color:var(--brand-d);padding:1px 7px;border-radius:5px;margin-right:7px;vertical-align:1px}
   .viol{font-size:12.5px;color:var(--warn);background:#fdf6ec;border-radius:8px;padding:8px 10px;margin-bottom:12px}
   .fb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .vbtn{padding:8px 12px;border-radius:8px;font-size:13.5px;border:1px solid var(--line);background:#fff}
@@ -168,6 +174,10 @@ function cardHTML(i){
     </div>
     ${viol}
     <div class="texto">${(i.texto||"").replace(/</g,"&lt;")}</div>
+    ${(i.texto_en||i.texto_es) ? `<details class="trad"><summary>🌐 Ver EN · ES</summary>
+      ${i.texto_en?`<div class="tl"><b>EN</b>${i.texto_en.replace(/</g,"&lt;")}</div>`:""}
+      ${i.texto_es?`<div class="tl"><b>ES</b>${i.texto_es.replace(/</g,"&lt;")}</div>`:""}
+    </details>`:""}
     <div class="fb">
       ${botoes}
       <span class="saved" style="display:none">salvo ✓</span>

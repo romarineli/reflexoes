@@ -5,7 +5,7 @@ push), regenera se a saída estourar o limite. Centraliza a lógica num só luga
 """
 from __future__ import annotations
 
-from . import client, config, prompt, validate
+from . import client, config, prompt, translate, validate
 
 
 def gerar(app: str, publico: str, botao: str, tema: str,
@@ -23,5 +23,6 @@ def gerar(app: str, publico: str, botao: str, tema: str,
         texto = client.generate(system, reforco)
 
     val = validate.report(texto, app, publico, botao)
+    traducoes = translate.traduzir_todos(texto)   # {'en': ..., 'es': ...} (fiel ao PT)
     return {"app": app, "publico": publico, "botao": botao, "dia": dia,
-            "tema": tema, "texto": texto, "validacao": val}
+            "tema": tema, "texto": texto, "traducoes": traducoes, "validacao": val}

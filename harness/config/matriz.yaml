@@ -157,3 +157,6 @@ geracao:
   modelo: claude-opus-4-8        # tom humano / instruções longas; trocável
   temperatura: null              # Opus 4.8 deprecou temperature; usar default do modelo
   variar_tamanho: true           # alternar textos curtos/longos entre dias
+  # Idiomas entregues. PT é o canônico (gerado + curado); os demais são tradução fiel do PT.
+  idiomas: [pt, en, es]
+  modelo_traducao: claude-haiku-4-5-20251001   # rápido/barato para traduzir

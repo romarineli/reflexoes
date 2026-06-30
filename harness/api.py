@@ -104,7 +104,9 @@ def _gerar_e_salvar(app_: str, publico: str, botao: str, tema: str, dia: int | N
         r = generate.gerar(app_, publico, botao, tema, dia)
     except ValueError as e:
         raise HTTPException(400, str(e))
-    r["id"] = store.salvar_item(app_, publico, botao, dia, tema, r["texto"], r["validacao"])
+    tr = r.get("traducoes", {})
+    r["id"] = store.salvar_item(app_, publico, botao, dia, tema, r["texto"], r["validacao"],
+                                texto_en=tr.get("en", ""), texto_es=tr.get("es", ""))
     r["veredito"] = None
     return r
 
@@ -146,17 +148,17 @@ def exportar() -> dict:
 
 # ---------- API de entrega (consumida pelo backend do app) ----------
 @app.get("/content/daily")
-def content_daily(app: str, publico: str, dia: int) -> dict:
-    """Conteúdo aprovado do dia para um perfil. As regras de horário/quantidade/perfil
-    ficam no app; aqui só entregamos o que a curadoria validou."""
+def content_daily(app: str, publico: str, dia: int, idioma: str = "pt") -> dict:
+    """Conteúdo aprovado do dia para um perfil, no idioma pedido (pt|en|es; cai no PT se a
+    tradução não existir). As regras de horário/quantidade/perfil ficam no app."""
     try:
         config.resolve(app, publico)
     except ValueError as e:
         raise HTTPException(400, str(e))
-    data = store.conteudo_aprovado(app, publico, dia)
+    data = store.conteudo_aprovado(app, publico, dia, idioma)
     if not data["blocos"]:
         raise HTTPException(404, "sem conteúdo aprovado para este perfil/dia")
-    return {"app": app, "publico": publico, "dia": dia,
+    return {"app": app, "publico": publico, "dia": dia, "idioma": data["idioma"],
             "tema": data["tema"], "blocos": data["blocos"]}
 
 
