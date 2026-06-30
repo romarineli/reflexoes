@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curadoria — Textos Reflexivos</title>
+<style>
+  :root{
+    --bg:#f4f6f8; --card:#ffffff; --ink:#2b3a42; --muted:#7a8a93;
+    --brand:#5b7a91; --brand-d:#46606f; --accent:#7fae9a;
+    --ok:#3f8f6b; --warn:#c98a2b; --no:#c2596a; --line:#e4e9ec;
+    --shadow:0 1px 3px rgba(40,60,70,.08),0 6px 20px rgba(40,60,70,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:16px/1.55 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--ink)}
+  header{background:linear-gradient(135deg,var(--brand),var(--accent));color:#fff;
+         padding:22px 28px;box-shadow:var(--shadow)}
+  header h1{margin:0;font-size:20px;font-weight:650}
+  header p{margin:4px 0 0;opacity:.9;font-size:13.5px}
+  .wrap{max-width:1080px;margin:24px auto;padding:0 20px;display:grid;
+        grid-template-columns:340px 1fr;gap:22px;align-items:start}
+  @media(max-width:880px){.wrap{grid-template-columns:1fr}}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:14px;
+         padding:20px;box-shadow:var(--shadow)}
+  .panel h2{margin:0 0 14px;font-size:15px;text-transform:uppercase;letter-spacing:.04em;color:var(--brand-d)}
+  label{display:block;font-size:13px;color:var(--muted);margin:12px 0 5px;font-weight:600}
+  select,input,textarea{width:100%;padding:10px 12px;border:1px solid var(--line);
+         border-radius:9px;font:inherit;color:var(--ink);background:#fbfcfd}
+  select:focus,input:focus,textarea:focus{outline:none;border-color:var(--brand)}
+  .row{display:flex;gap:10px}.row>*{flex:1}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .chip{font-size:12px;padding:4px 9px;border-radius:20px;background:#eef3f1;color:var(--brand-d);
+        cursor:pointer;border:1px solid transparent}
+  .chip:hover{border-color:var(--accent)}
+  button{cursor:pointer;border:none;border-radius:9px;font:inherit;font-weight:650}
+  .btn{background:var(--brand);color:#fff;padding:11px 16px;width:100%;margin-top:16px}
+  .btn:hover{background:var(--brand-d)}
+  .btn.ghost{background:#eef3f1;color:var(--brand-d)}
+  .btn:disabled{opacity:.55;cursor:wait}
+  .toolbar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  .toolbar .stat{font-size:13px;color:var(--muted)}
+  .toolbar .stat b{color:var(--ink)}
+  .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{background:#fff;color:var(--muted);padding:7px 12px;font-size:13px}
+  .seg button.on{background:var(--brand);color:#fff}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;
+        margin-bottom:16px;box-shadow:var(--shadow)}
+  .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .tag{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:6px;background:#eef3f1;color:var(--brand-d);text-transform:uppercase;letter-spacing:.03em}
+  .tag.app{background:var(--brand);color:#fff}
+  .val{font-size:12.5px;margin-left:auto;font-weight:600}
+  .val.ok{color:var(--ok)} .val.warn{color:var(--warn)}
+  .texto{white-space:pre-wrap;font-size:15.5px;line-height:1.6;color:#33454d;
+         border-left:3px solid var(--accent);padding:2px 0 2px 14px;margin:4px 0 14px}
+  .viol{font-size:12.5px;color:var(--warn);background:#fdf6ec;border-radius:8px;padding:8px 10px;margin-bottom:12px}
+  .fb{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .vbtn{padding:8px 12px;border-radius:8px;font-size:13.5px;border:1px solid var(--line);background:#fff}
+  .vbtn[data-v=gostei].on{background:var(--ok);color:#fff;border-color:var(--ok)}
+  .vbtn[data-v=ressalva].on{background:var(--warn);color:#fff;border-color:var(--warn)}
+  .vbtn[data-v=nao_gostei].on{background:var(--no);color:#fff;border-color:var(--no)}
+  .fb textarea{flex-basis:100%;min-height:42px;margin-top:4px;resize:vertical}
+  .saved{font-size:12px;color:var(--ok);font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:40px;font-size:14px}
+  .spin{display:inline-block;width:14px;height:14px;border:2px solid #fff6;border-top-color:#fff;
+        border-radius:50%;animation:r .7s linear infinite;vertical-align:-2px;margin-right:6px}
+  @keyframes r{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Curadoria — Textos Reflexivos</h1>
+  <p>SpotCalm &amp; LifeCalm · gere, revise e aprove o conteúdo no padrão da curadoria</p>
+</header>
+
+<div class="wrap">
+  <!-- PAINEL DE GERAÇÃO -->
+  <div class="panel">
+    <h2>Gerar</h2>
+    <label>App</label>
+    <select id="app"></select>
+    <label>Público</label>
+    <select id="publico"></select>
+    <label>Botão</label>
+    <select id="botao"></select>
+    <div class="row">
+      <div><label>Dia (opcional)</label><input id="dia" type="number" min="1" placeholder="ex: 12"></div>
+    </div>
+    <label>Tema</label>
+    <input id="tema" placeholder="ex: A importância da calma">
+    <div class="chips" id="temas"></div>
+    <button class="btn" id="gerar">Gerar texto</button>
+    <button class="btn ghost" id="gerarDia">Gerar dia completo (todos os botões)</button>
+  </div>
+
+  <!-- FILA DE REVISÃO -->
+  <div>
+    <div class="toolbar">
+      <div class="seg" id="filtroStatus">
+        <button data-s="" class="on">Todos</button>
+        <button data-s="pendente">Pendentes</button>
+        <button data-s="avaliado">Avaliados</button>
+      </div>
+      <div class="stat" id="stats"></div>
+      <button class="btn ghost" id="exportar" style="width:auto;margin:0;padding:8px 14px">Exportar few-shot</button>
+    </div>
+    <div id="fila"><div class="empty">Gere um texto para começar a revisar.</div></div>
+  </div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+let CFG=null, statusFiltro="";
+
+async function api(path, opts){
+  const r = await fetch(path, opts);
+  if(!r.ok){ const e = await r.json().catch(()=>({detail:r.statusText})); throw new Error(e.detail||"erro"); }
+  return r.json();
+}
+
+async function carregarConfig(){
+  CFG = await api("/api/config");
+  const app=$("#app"), pub=$("#publico");
+  app.innerHTML = Object.entries(CFG.apps).map(([k,v])=>`<option value="${k}">${v}</option>`).join("");
+  pub.innerHTML = Object.entries(CFG.publicos).map(([k,v])=>`<option value="${k}">${v.rotulo}</option>`).join("");
+  $("#temas").innerHTML = CFG.temas_sugeridos.map(t=>`<span class="chip">${t}</span>`).join("");
+  $("#temas").querySelectorAll(".chip").forEach(c=>c.onclick=()=>$("#tema").value=c.textContent);
+  pub.onchange = atualizarBotoes; atualizarBotoes();
+}
+function atualizarBotoes(){
+  const botoes = CFG.publicos[$("#publico").value].botoes;
+  $("#botao").innerHTML = botoes.map(b=>`<option value="${b}">${CFG.botoes[b]||b}</option>`).join("");
+}
+
+function payload(){
+  return {app:$("#app").value, publico:$("#publico").value, botao:$("#botao").value,
+          tema:$("#tema").value.trim(), dia: $("#dia").value? Number($("#dia").value): null};
+}
+async function gerar(dia){
+  const p = payload();
+  if(!p.tema){ alert("Informe um tema."); return; }
+  const btns=[$("#gerar"),$("#gerarDia")]; btns.forEach(b=>b.disabled=true);
+  const alvo = dia? $("#gerarDia"):$("#gerar"); const txt=alvo.textContent;
+  alvo.innerHTML='<span class="spin"></span>Gerando...';
+  try{
+    if(dia) await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({app:p.app,publico:p.publico,tema:p.tema,dia:p.dia})});
+    else await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
+    await carregarFila();
+  }catch(e){ alert("Falha ao gerar: "+e.message); }
+  finally{ btns.forEach(b=>b.disabled=false); alvo.textContent=txt; }
+}
+
+const VERED=[["gostei","👍 Gostei"],["ressalva","🤔 Com ressalva"],["nao_gostei","👎 Não gostei"]];
+function cardHTML(i){
+  const v=i.validacao, dia=i.dia?`Dia ${i.dia} · `:"";
+  const val = v.ok ? `<span class="val ok">✅ regras OK</span>`
+                   : `<span class="val warn">⚠️ ${v.violacoes.length} violação(ões)</span>`;
+  const viol = v.ok? "" : `<div class="viol">${v.violacoes.join("<br>")}</div>`;
+  const botoes = VERED.map(([k,lbl])=>`<button class="vbtn${i.veredito===k?' on':''}" data-v="${k}">${lbl}</button>`).join("");
+  return `<div class="card" data-id="${i.id}">
+    <div class="meta">
+      <span class="tag app">${CFG.apps[i.app]||i.app}</span>
+      <span class="tag">${i.publico}</span>
+      <span class="tag">${CFG.botoes[i.botao]||i.botao}</span>
+      <span class="tag" style="background:transparent;color:var(--muted)">${dia}${i.tema}</span>
+      ${val}
+    </div>
+    ${viol}
+    <div class="texto">${(i.texto||"").replace(/</g,"&lt;")}</div>
+    <div class="fb">
+      ${botoes}
+      <span class="saved" style="display:none">salvo ✓</span>
+      <textarea placeholder="Comentário da curadoria (opcional)">${i.comentario||""}</textarea>
+    </div>
+  </div>`;
+}
+
+async function carregarFila(){
+  const data = await api("/api/itens"+(statusFiltro?`?status=${statusFiltro}`:""));
+  const s=data.stats;
+  $("#stats").innerHTML = `<b>${s.total}</b> gerados · <b>${s.pendentes}</b> pendentes · `+
+     `👍 ${s.gostei} · 🤔 ${s.ressalva} · 👎 ${s.nao_gostei}`;
+  const fila=$("#fila");
+  if(!data.itens.length){ fila.innerHTML='<div class="empty">Nenhum texto neste filtro.</div>'; return; }
+  fila.innerHTML = data.itens.map(cardHTML).join("");
+  fila.querySelectorAll(".card").forEach(card=>{
+    const id=card.dataset.id, ta=card.querySelector("textarea"), saved=card.querySelector(".saved");
+    card.querySelectorAll(".vbtn").forEach(b=>b.onclick=async()=>{
+      try{
+        await api(`/api/itens/${id}/feedback`,{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({veredito:b.dataset.v, comentario:ta.value})});
+        card.querySelectorAll(".vbtn").forEach(x=>x.classList.toggle("on",x===b));
+        saved.style.display="inline"; setTimeout(()=>saved.style.display="none",1500);
+      }catch(e){ alert("Falha ao salvar: "+e.message); }
+    });
+  });
+}
+
+$("#gerar").onclick=()=>gerar(false);
+$("#gerarDia").onclick=()=>gerar(true);
+$("#filtroStatus").querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  statusFiltro=b.dataset.s;
+  $("#filtroStatus").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+  carregarFila();
+});
+$("#exportar").onclick=async()=>{
+  try{ const r=await api("/api/exportar-fewshot",{method:"POST"});
+    if(!r.aprovados && !r.reprovados){ alert("Ainda não há textos avaliados para exportar."); return; }
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([r.markdown],{type:"text/markdown;charset=utf-8"}));
+    a.download="few-shot-curado.md"; document.body.appendChild(a); a.click();
+    a.remove(); URL.revokeObjectURL(a.href);
+    alert(`Baixado: few-shot-curado.md\n${r.aprovados} aprovados · ${r.reprovados} reprovados`);
+  }catch(e){ alert("Falha: "+e.message); }
+};
+
+carregarConfig().then(carregarFila);
+</script>
+</body>
+</html>

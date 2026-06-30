@@ -1,0 +1,18 @@
+# Segredos — NUNCA na imagem (vêm do Secret Manager em runtime)
+.env
+*.key
+
+# Pesados / desnecessários
+material/
+*.zip
+.venv/
+saidas/
+__pycache__/
+*.pyc
+
+# Docs e fontes que não precisam rodar no container
+*.md
+!harness/**/*.md          # config/fewshot em markdown SÃO necessários
+assistente-ia-cronograma.pdf
+.git/
+.claude/

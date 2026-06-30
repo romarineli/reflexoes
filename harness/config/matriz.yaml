@@ -1,0 +1,159 @@
+# ============================================================================
+# MATRIZ DE CONFIGURAÇÃO — app × público × botão
+# ----------------------------------------------------------------------------
+# Fonte da verdade declarativa do harness. Cada geração resolve, em camadas:
+#   regras globais  →  config do app  →  config do público  →  spec do botão
+# Ajustar tom/regras = editar este arquivo + os exemplos, sem mexer em código.
+#
+# Derivado de: material/Frases Apps/Aprovação /FINAL /01.COMANDOS.docx
+#              material/Frases Apps/Aprovação /FINAL /02.Revisada - LifeCalm (Cristo).docx
+#              material/Frases Apps/Aprovação /FINAL /Considerações IA.docx
+# ============================================================================
+
+apps:
+  spotcalm:
+    nome: SpotCalm
+    linha: geral
+    religiao: nenhuma
+    figura_referencia: null
+    nota: >
+      Versão geral / secular. SEM referências a Jesus, Mestre dos Mestres, etc.
+      As ideias de Cury entram como sabedoria sobre a mente e a emoção, sem
+      personagem religioso. CONFIRMAR com a Letícia como substituir a figura
+      do "mestre da emoção" (ex.: linguagem genérica de sabedoria humana).
+
+  lifecalm:
+    nome: LifeCalm
+    linha: crista
+    religiao: crista
+    # A figura religiosa concreta depende do PÚBLICO — ver bloco `publicos`.
+    nota: >
+      Versão cristã. A referência muda por público: Adultos NUNCA usam
+      "Jesus/Cristo/Deus"; Teens e Kids usam SOMENTE "Jesus Cristo".
+
+publicos:
+  adultos:
+    rotulo: ADULTOS
+    permite_jesus_cristo: false          # em LifeCalm: usar perífrases
+    figura_crista: "o Mestre dos Mestres"
+    figuras_alternativas:
+      - "o Homem mais Inteligente da História"
+      - "o Maior Líder da História"
+      - "o mestre do amor"
+      - "o mestre da emoção"
+      - "o mestre da sensibilidade"
+    diminutivos: permitido
+    profundidade: alta
+    reflexao_max_chars: 850      # limite da reflexão (Gestão da Emoção); parágrafos curtos
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_tarde, push_noite]
+    exercicios_preferidos:
+      - diário emocional
+      - oração curta            # só LifeCalm
+      - ato de reconciliação
+      - pausa de silêncio
+      - análise de pensamento
+      - carta não enviada
+      - prática de gratidão
+      - renúncia a uma reação impulsiva
+
+  teens:
+    rotulo: TEENS
+    permite_jesus_cristo: true           # em LifeCalm: "Jesus Cristo"
+    figura_crista: "Jesus Cristo"
+    diminutivos: permitido
+    profundidade: media
+    reflexao_max_chars: 650
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_tarde, push_noite]
+    universo:                            # ancorar no dia a dia jovem real
+      - ansiedade por resposta
+      - comparação nas redes sociais
+      - comparação de corpo
+      - grupo de amigos / exclusão
+      - pressão por desempenho
+      - medo de errar
+      - conflitos com os pais
+      - vontade de responder no impulso
+      - necessidade de validação
+      - uso de telas / jogos
+    nota: >
+      NÃO ser apenas o texto Adulto simplificado. Trazer o universo jovem real.
+
+  kids:
+    rotulo: KIDS
+    permite_jesus_cristo: true           # em LifeCalm: "Jesus Cristo", leve
+    figura_crista: "Jesus Cristo"
+    diminutivos: proibido                # NUNCA corpinho, mãozinha, etc.
+    profundidade: baixa
+    reflexao_max_chars: 400
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, historia, desafio, boas_vindas, push_manha, push_tarde, push_noite]
+    cotidiano:
+      - escola
+      - brinquedo (dividir / quebrar)
+      - amigos
+      - pedir desculpas
+      - compartilhar
+      - comportamento em casa
+    nota: >
+      Calma Noturna Kids = texto reflexivo + HISTÓRIA (personagens de nomes
+      bíblicos: Lucas, Samuel, Maria, Davi, Pedro...) + DESAFIO executável.
+      Leitura próxima e visual, para a criança imaginar o cenário; em LifeCalm,
+      "Jesus Cristo" de forma leve, que a criança pequena entenda com o pai lendo.
+
+# ----------------------------------------------------------------------------
+# Botões — qual conteúdo cada um entrega (spec detalhada em formato.md)
+# ----------------------------------------------------------------------------
+botoes:
+  gestao_emocao:
+    rotulo: "Botão — Gestão da Emoção"
+    descricao: "Reflexão central do dia: 2–4 parágrafos + pergunta provocativa final."
+  exercicio_antiestresse:
+    rotulo: "Botão — Exercício Antiestresse"
+    descricao: "Prática aplicável do dia. Kids: 'Querida família' + Como aplicar + Por que funciona."
+  calma_noturna:
+    rotulo: "Botão — Calma Noturna"
+    descricao: "Fechamento do dia, desaceleração. Ritual breve e acolhedor."
+  historia:
+    rotulo: "HISTÓRIA"
+    descricao: "Só Kids. Narrativa curta com personagem de nome bíblico, ligada ao tema do dia, com lição."
+  desafio:
+    rotulo: "Desafio"
+    descricao: "Só Kids. Ação concreta e executável ligada ao tema."
+  # --- Tipos CURTOS (limite de caracteres enforçado) ---
+  boas_vindas:
+    rotulo: "Frase do dia (tela inicial)"
+    descricao: "Frase única, curta, de impacto, acolhedora e reflexiva — tela inicial do app."
+    max_chars: 120
+  push_manha:
+    rotulo: "Push — manhã"
+    descricao: "Notificação curta da manhã, dentro do limite de caracteres."
+    max_chars: 140
+    periodo: manhã
+  push_tarde:
+    rotulo: "Push — tarde"
+    descricao: "Notificação curta da tarde, dentro do limite de caracteres."
+    max_chars: 140
+    periodo: tarde
+  push_noite:
+    rotulo: "Push — noite"
+    descricao: "Notificação curta da noite, dentro do limite de caracteres."
+    max_chars: 140
+    periodo: noite
+
+# ----------------------------------------------------------------------------
+# Tipos de conteúdo transversais
+# ----------------------------------------------------------------------------
+extras:
+  boas_vindas:
+    descricao: "Frase única da tela inicial: curta, de impacto, acolhedora, reflexiva, humanizada."
+  push_notifications:
+    horarios: [manha, tarde, noite]
+    descricao: "Notificações geradas por IA por período. Regras de horário/perfil ficam no app."
+
+# ----------------------------------------------------------------------------
+# Parâmetros de geração (provider escolhido: Anthropic / Claude)
+# ----------------------------------------------------------------------------
+geracao:
+  provider: anthropic
+  modelo: claude-opus-4-8        # tom humano / instruções longas; trocável
+  temperatura: null              # Opus 4.8 deprecou temperature; usar default do modelo
+  variar_tamanho: true           # alternar textos curtos/longos entre dias

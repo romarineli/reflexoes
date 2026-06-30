@@ -1,0 +1,88 @@
+# ============================================================================
+# GLOSSÁRIO — substituições e proibições (regras DURAS, verificáveis em código)
+# ----------------------------------------------------------------------------
+# Usado em duas frentes:
+#   1) Injetado no system prompt como "o que NUNCA usar / o que usar".
+#   2) Validação automática pós-geração: regex/contains rejeita a saída e regenera.
+#
+# Fonte: 01.COMANDOS.docx (correções da Letícia). Ver harness/config/regras.md.
+# ============================================================================
+
+# Termos PROIBIDOS em qualquer público/app, com a substituição correta.
+proibidos_globais:
+  - termo: "inteligência emocional"
+    motivo: "É o contrário da teoria do Dr. Augusto Cury."
+    usar: ["pessoas inteligentes", "pessoas emocionalmente saudáveis", "maturidade", "sabedoria"]
+  - termo: "emocionalmente inteligente"
+    motivo: "Idem acima."
+    usar: ["emocionalmente saudável", "pessoa madura e inteligente", "demonstração de maturidade"]
+  - termo: "Inteligência Emocional"
+    motivo: "Substituir pelo conceito do método."
+    usar: ["Gestão da Emoção"]
+  - termo: "mindfulness"
+    motivo: "Não usar o termo."
+    usar: ["respiração profunda", "desacelerar a mente", "desacelerar os batimentos cardíacos"]
+  - termo: "conte até cinco"
+    motivo: "Técnica proibida."
+    usar: ["respire profundamente três vezes e pergunte: “Vale a pena perder minha paz por isso?”"]
+  - termo: "conte até 5"
+    motivo: "Técnica proibida."
+    usar: ["respire profundamente três vezes e pergunte: “Vale a pena perder minha paz por isso?”"]
+  - termo: "conte até três"
+    motivo: "Técnica proibida (variações de contagem)."
+    usar: ["respire profundamente três vezes"]
+  - termo: "conte até 3"
+    motivo: "Técnica proibida (variações de contagem)."
+    usar: ["respire profundamente três vezes"]
+
+# Religião — proibições CONDICIONAIS (dependem de app + público).
+# Regra: aplicar `proibidos` quando a condição casar.
+religiao:
+  # LifeCalm + Adultos: nunca nomear a divindade; usar perífrases de Cury.
+  - quando: { app: lifecalm, publico: adultos }
+    proibidos: ["Deus", "Cristo", "Jesus", "Jesus Cristo",
+                "Carpinteiro de Nazaré", "Majestoso Carpinteiro de Nazaré", "Sábio Carpinteiro"]
+    usar: ["o Mestre dos Mestres", "o Homem mais Inteligente da História",
+           "o Maior Líder da História", "o mestre do amor", "o mestre da emoção"]
+  # LifeCalm + Teens/Kids: usar SOMENTE "Jesus Cristo" (não as perífrases adultas).
+  - quando: { app: lifecalm, publico: [teens, kids] }
+    permitido: ["Jesus Cristo"]
+    evitar_periphrase_adulta: true
+  # SpotCalm (geral): SEM nenhuma referência religiosa.
+  - quando: { app: spotcalm }
+    proibidos: ["Deus", "Cristo", "Jesus", "Jesus Cristo", "Mestre dos Mestres",
+                "Carpinteiro de Nazaré", "oração", "Amém"]
+    nota: "Confirmar substituição da figura do 'mestre da emoção' para linguagem secular."
+
+# Diminutivos — proibidos APENAS para Kids.
+diminutivos:
+  proibido_para: [kids]
+  exemplos_proibidos: ["corpinho", "mãozinha", "olhinhos", "coraçãozinho", "bracinho"]
+
+# Expressões SUPERUSADAS — não banidas, mas o validador deve alertar repetição
+# excessiva entre textos próximos (anti-mesmice apontada pela Letícia).
+superusadas:
+  - "fortalece a emoção"
+  - "protege a emoção"
+  - "coração mais feliz"
+  - "desacelerar"
+  - "respire fundo"
+  - "paz emocional"
+
+# Preferências de linguagem positiva.
+preferencias:
+  - de: "enfraquece"
+    para: "compromete"
+  - nota: "Variar 'mente' e não usar só 'coração'."
+
+# Conceitos clássicos da Gestão da Emoção a inserir ao longo dos dias
+# (linguagem adaptada ao público). Aproxima do método original de Cury.
+conceitos_gestao_emocao:
+  - "Eu como gestor da emoção"
+  - "Filtrar estímulos estressantes"
+  - "Proteger a janela da memória"
+  - "Gerenciar pensamentos"
+  - "Autodiálogo"
+  - "Mesa-redonda do eu"
+  - "Construção da autoestima"
+  - "Fenômeno RAM (Registro Automático da Memória)"
