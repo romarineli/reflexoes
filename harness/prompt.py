@@ -104,9 +104,16 @@ def _formato_botao(botao: str, app: str, publico: str, pub_cfg: dict, botao_cfg:
         return (f"**{rotulo}** — Gere UMA única frase curta para a tela inicial: de impacto, "
                 f"acolhedora, reflexiva e humanizada. **No máximo {lim} caracteres.** "
                 "Sem aspas, sem emojis, sem pergunta. Apenas a frase.")
+    if botao == "push_ausente":
+        return (f"**{rotulo}** — Gere o texto de UMA notificação push de REENGAJAMENTO, para "
+                "quem está há alguns dias sem abrir o app: acolhedora e gentil, SEM culpa e SEM "
+                "cobrança (nada de 'sentimos sua falta' em tom de dívida ou 'você sumiu') — um "
+                "convite leve a voltar a cuidar da própria emoção, como quem deixa a porta aberta. "
+                f"Pode usar o tema como gancho sutil. **No máximo {lim} caracteres.** "
+                "Uma frase, sem aspas, sem emojis. Apenas o texto da notificação.")
     if botao.startswith("push_"):
         periodo = (botao_cfg or {}).get("periodo", "")
-        return (f"**{rotulo}** — Gere o texto de UMA notificação push para o período da "
+        return (f"**{rotulo}** — Gere o texto de UMA notificação push para o período: "
                 f"**{periodo}**, conectada ao tema do dia: curta, acolhedora e que convide a "
                 f"abrir o app. **No máximo {lim} caracteres** (precisa caber na notificação). "
                 "Uma frase, sem aspas, sem emojis. Apenas o texto da notificação.")

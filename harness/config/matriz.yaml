@@ -45,7 +45,7 @@ publicos:
     diminutivos: permitido
     profundidade: alta
     reflexao_max_chars: 850      # limite da reflexão (Gestão da Emoção); parágrafos curtos
-    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_tarde, push_noite]
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
     exercicios_preferidos:
       - diário emocional
       - oração curta            # só LifeCalm
@@ -63,7 +63,7 @@ publicos:
     diminutivos: permitido
     profundidade: media
     reflexao_max_chars: 650
-    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_tarde, push_noite]
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
     universo:                            # ancorar no dia a dia jovem real
       - ansiedade por resposta
       - comparação nas redes sociais
@@ -85,7 +85,7 @@ publicos:
     diminutivos: proibido                # NUNCA corpinho, mãozinha, etc.
     profundidade: baixa
     reflexao_max_chars: 400
-    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, historia, desafio, boas_vindas, push_manha, push_tarde, push_noite]
+    botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, historia, desafio, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
     cotidiano:
       - escola
       - brinquedo (dividir / quebrar)
@@ -133,11 +133,20 @@ botoes:
     descricao: "Notificação curta da tarde, dentro do limite de caracteres."
     max_chars: 140
     periodo: tarde
+  push_meiodia:
+    rotulo: "Push — meio-dia"
+    descricao: "Notificação curta do meio do dia, dentro do limite de caracteres."
+    max_chars: 140
+    periodo: "meio do dia"
   push_noite:
     rotulo: "Push — noite"
     descricao: "Notificação curta da noite, dentro do limite de caracteres."
     max_chars: 140
     periodo: noite
+  push_ausente:
+    rotulo: "Push — ausente (reengajamento)"
+    descricao: "Convite acolhedor para quem está há alguns dias sem abrir o app. Sem culpa/cobrança."
+    max_chars: 140
 
 # ----------------------------------------------------------------------------
 # Tipos de conteúdo transversais
