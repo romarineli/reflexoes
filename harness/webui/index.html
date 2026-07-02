@@ -92,11 +92,19 @@
     <div class="row">
       <div><label>Dia (opcional)</label><input id="dia" type="number" min="1" placeholder="ex: 12"></div>
     </div>
-    <label>Tema</label>
-    <input id="tema" placeholder="ex: A importância da calma">
+    <label>Tema <span style="font-weight:400;color:var(--muted)">(vazio = tema automático do dia)</span></label>
+    <input id="tema" placeholder="automático pelo dia, ou digite um tema">
     <div class="chips" id="temas"></div>
     <button class="btn" id="gerar">Gerar texto</button>
     <button class="btn ghost" id="gerarDia">Gerar dia completo (todos os botões)</button>
+    <hr style="border:none;border-top:1px solid var(--line);margin:18px 0 4px">
+    <label>Gerar range de dias (dia completo, temas automáticos)</label>
+    <div class="row">
+      <div><input id="rangeIni" type="number" min="1" max="365" placeholder="dia início"></div>
+      <div><input id="rangeFim" type="number" min="1" max="365" placeholder="dia fim"></div>
+    </div>
+    <button class="btn ghost" id="gerarRange">Gerar range</button>
+    <div id="rangeStatus" style="font-size:12.5px;color:var(--muted);margin-top:8px"></div>
   </div>
 
   <!-- FILA DE REVISÃO -->
@@ -144,7 +152,7 @@ function payload(){
 }
 async function gerar(dia){
   const p = payload();
-  if(!p.tema){ alert("Informe um tema."); return; }
+  if(!p.tema && !p.dia){ alert("Informe um tema OU um dia (1–365) para tema automático."); return; }
   const btns=[$("#gerar"),$("#gerarDia")]; btns.forEach(b=>b.disabled=true);
   const alvo = dia? $("#gerarDia"):$("#gerar"); const txt=alvo.textContent;
   alvo.innerHTML='<span class="spin"></span>Gerando...';
@@ -213,6 +221,28 @@ async function carregarFila(){
 
 $("#gerar").onclick=()=>gerar(false);
 $("#gerarDia").onclick=()=>gerar(true);
+
+$("#gerarRange").onclick=async()=>{
+  const ini=Number($("#rangeIni").value), fim=Number($("#rangeFim").value);
+  const app=$("#app").value, publico=$("#publico").value;
+  if(!ini||!fim||ini<1||fim>365||fim<ini){ alert("Range inválido (1–365, fim ≥ início)."); return; }
+  if(fim-ini+1>31 && !confirm(`São ${fim-ini+1} dias — pode demorar bastante. Continuar?`)) return;
+  const btn=$("#gerarRange"), st=$("#rangeStatus"); btn.disabled=true;
+  let ok=0, ja=0, err=0;
+  for(let d=ini; d<=fim; d++){
+    btn.innerHTML=`<span class="spin"></span>Dia ${d} de ${ini}–${fim}...`;
+    try{
+      const res=await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({app,publico,dia:d,tema:""})});
+      const j=res.filter(x=>x&&x.ja_existia).length;
+      ja+=j; ok+=res.length-j;
+      st.textContent=`dia ${d} ✓ — gerados ${ok} · já existiam ${ja}${err?` · erros ${err}`:""}`;
+    }catch(e){ err++; st.textContent=`dia ${d} ✗ (${e.message}) — seguindo...`; }
+  }
+  btn.disabled=false; btn.textContent="Gerar range";
+  await carregarFila();
+  alert(`Range concluído: ${ok} gerados, ${ja} já existiam${err?`, ${err} dia(s) com erro`:""}.`);
+};
 $("#filtroStatus").querySelectorAll("button").forEach(b=>b.onclick=()=>{
   statusFiltro=b.dataset.s;
   $("#filtroStatus").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));

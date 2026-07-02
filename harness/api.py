@@ -14,7 +14,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel
 
-from . import config, generate, store
+from . import config, generate, store, temas
 
 WEBUI = Path(__file__).parent / "webui"
 
@@ -65,7 +65,7 @@ class GerarReq(BaseModel):
     app: str
     publico: str
     botao: str = "gestao_emocao"
-    tema: str
+    tema: str = ""               # vazio + dia informado → tema automático do framework
     dia: int | None = None
     force: bool = False          # regerar mesmo se já existir
 
@@ -73,9 +73,21 @@ class GerarReq(BaseModel):
 class GerarDiaReq(BaseModel):
     app: str
     publico: str
-    tema: str
+    tema: str = ""
     dia: int | None = None
     force: bool = False
+
+
+def _tema_efetivo(tema: str, dia: int | None) -> str:
+    """Tema informado, ou o tema oficial do dia (framework TEMA GERAL)."""
+    if tema and tema.strip():
+        return tema.strip()
+    if dia:
+        try:
+            return temas.tema_do_dia(dia)["tema"]
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+    raise HTTPException(400, "informe um tema ou um dia (1–365) para tema automático")
 
 
 class FeedbackReq(BaseModel):
@@ -114,16 +126,18 @@ def _gerar_e_salvar(app_: str, publico: str, botao: str, tema: str, dia: int | N
 
 @app.post("/api/gerar")
 def gerar(req: GerarReq) -> dict:
+    tema = _tema_efetivo(req.tema, req.dia)
     if not req.force:
         jaid = store.existe(req.app, req.publico, req.botao, req.dia)
         if jaid:                                   # já gerado → não duplica
             return {**store.get(jaid), "ja_existia": True}
-    return _gerar_e_salvar(req.app, req.publico, req.botao, req.tema, req.dia)
+    return _gerar_e_salvar(req.app, req.publico, req.botao, tema, req.dia)
 
 
 @app.post("/api/gerar-dia")
 def gerar_dia(req: GerarDiaReq) -> list[dict]:
     """Gera todos os botões do público (dia completo), pulando os que já existem."""
+    tema = _tema_efetivo(req.tema, req.dia)
     try:
         cfg = config.resolve(req.app, req.publico)
     except ValueError as e:
@@ -134,8 +148,17 @@ def gerar_dia(req: GerarDiaReq) -> list[dict]:
         if jaid:
             out.append({**store.get(jaid), "ja_existia": True})
         else:
-            out.append(_gerar_e_salvar(req.app, req.publico, b, req.tema, req.dia))
+            out.append(_gerar_e_salvar(req.app, req.publico, b, tema, req.dia))
     return out
+
+
+@app.get("/api/tema-do-dia")
+def tema_dia(dia: int) -> dict:
+    """Tema oficial do dia (framework TEMA GERAL) — usado pela UI e pelo range."""
+    try:
+        return temas.tema_do_dia(dia)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
 
 
 @app.get("/api/itens")
