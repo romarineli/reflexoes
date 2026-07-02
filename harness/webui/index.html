@@ -157,14 +157,26 @@ async function gerar(dia){
   const alvo = dia? $("#gerarDia"):$("#gerar"); const txt=alvo.textContent;
   alvo.innerHTML='<span class="spin"></span>Gerando...';
   try{
-    let res;
-    if(dia) res = await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({app:p.app,publico:p.publico,tema:p.tema,dia:p.dia})});
-    else res = await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
-    await carregarFila();
-    const arr = Array.isArray(res)?res:[res];
-    const ja = arr.filter(x=>x&&x.ja_existia).length;
-    if(ja) alert(ja+" já existia(m) para esse dia/app/botão — não gerei duplicado (use 'force' se quiser regerar).");
+    if(dia){
+      // 1 requisição POR BOTÃO (requisições curtas — evita timeout de load balancer)
+      const botoes = CFG.publicos[p.publico].botoes;
+      let ja=0, err=[];
+      for(let i=0;i<botoes.length;i++){
+        alvo.innerHTML=`<span class="spin"></span>${i+1}/${botoes.length} · ${CFG.botoes[botoes[i]]||botoes[i]}`;
+        try{
+          const r = await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({...p, botao:botoes[i]})});
+          if(r.ja_existia) ja++;
+        }catch(e){ err.push(`${botoes[i]}: ${e.message}`); }
+      }
+      await carregarFila();
+      if(ja) alert(ja+" já existia(m) — não gerei duplicado.");
+      if(err.length) alert("Falha em "+err.length+" botão(ões):\n"+err.join("\n"));
+    } else {
+      const res = await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
+      await carregarFila();
+      if(res.ja_existia) alert("Já existia para esse dia/app/botão — não gerei duplicado (use 'force' se quiser regerar).");
+    }
   }catch(e){ alert("Falha ao gerar: "+e.message); }
   finally{ btns.forEach(b=>b.disabled=false); alvo.textContent=txt; }
 }
@@ -229,15 +241,18 @@ $("#gerarRange").onclick=async()=>{
   if(fim-ini+1>31 && !confirm(`São ${fim-ini+1} dias — pode demorar bastante. Continuar?`)) return;
   const btn=$("#gerarRange"), st=$("#rangeStatus"); btn.disabled=true;
   let ok=0, ja=0, err=0;
+  const botoes = CFG.publicos[publico].botoes;
   for(let d=ini; d<=fim; d++){
-    btn.innerHTML=`<span class="spin"></span>Dia ${d} de ${ini}–${fim}...`;
-    try{
-      const res=await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({app,publico,dia:d,tema:""})});
-      const j=res.filter(x=>x&&x.ja_existia).length;
-      ja+=j; ok+=res.length-j;
-      st.textContent=`dia ${d} ✓ — gerados ${ok} · já existiam ${ja}${err?` · erros ${err}`:""}`;
-    }catch(e){ err++; st.textContent=`dia ${d} ✗ (${e.message}) — seguindo...`; }
+    for(let i=0;i<botoes.length;i++){
+      btn.innerHTML=`<span class="spin"></span>Dia ${d} (${i+1}/${botoes.length})`;
+      try{
+        // 1 requisição por botão — curta, não estoura timeout de LB
+        const r=await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({app,publico,botao:botoes[i],dia:d,tema:""})});
+        r.ja_existia ? ja++ : ok++;
+      }catch(e){ err++; }
+      st.textContent=`dia ${d} · gerados ${ok} · já existiam ${ja}${err?` · erros ${err}`:""}`;
+    }
   }
   btn.disabled=false; btn.textContent="Gerar range";
   await carregarFila();

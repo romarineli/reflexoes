@@ -40,5 +40,11 @@ def traduzir(texto: str, idioma: str) -> str:
 
 
 def traduzir_todos(texto: str) -> dict:
-    """{'en': ..., 'es': ...} para todos os idiomas não-PT configurados."""
-    return {idi: traduzir(texto, idi) for idi in NAO_PT}
+    """{'en': ..., 'es': ...} para todos os idiomas não-PT configurados.
+    Em PARALELO (reduz a latência da geração — importante p/ não estourar timeout de LB)."""
+    if not NAO_PT:
+        return {}
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=len(NAO_PT)) as ex:
+        futs = {idi: ex.submit(traduzir, texto, idi) for idi in NAO_PT}
+        return {idi: f.result() for idi, f in futs.items()}
