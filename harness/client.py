@@ -46,5 +46,20 @@ def generate(system: str, user: str, *, modelo: str | None = None,
         kwargs["temperature"] = temp
 
     client = anthropic.Anthropic()
-    msg = client.messages.create(**kwargs)
-    return "".join(block.text for block in msg.content if block.type == "text").strip()
+    # Retry em erros TRANSITÓRIOS (sobrecarga/limite/timeout) — evita "Falha ao gerar" à toa.
+    import time
+    erro = None
+    for tentativa in range(4):
+        try:
+            msg = client.messages.create(**kwargs)
+            return "".join(b.text for b in msg.content if b.type == "text").strip()
+        except Exception as e:  # noqa: BLE001
+            erro = e
+            s = str(e).lower()
+            transitorio = any(t in s for t in (
+                "overloaded", "rate limit", "429", "529", "503", "500",
+                "timeout", "timed out", "connection", "temporarily"))
+            if not transitorio or tentativa == 3:
+                raise
+            time.sleep(1.5 * (tentativa + 1))   # backoff: 1.5s, 3s, 4.5s
+    raise erro

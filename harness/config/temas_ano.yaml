@@ -1,0 +1,163 @@
+# ============================================================================
+# FRAMEWORK OFICIAL DE TEMAS — "TEMA GERAL" (aprovado/definido pela curadoria).
+# Estrutura: 12 meses → 4 semanas/mês → 5 microtemas/semana (240 microtemas).
+# Cada mês tem um TEMA e um OBJETIVO; cada semana tem um FOCO.
+# O agente segue esta jornada: o tema do dia sai do microtema da semana corrente.
+# Fonte: "TEMA GERAL.pdf".
+# ============================================================================
+meses:
+  - mes: Janeiro
+    tema: "Ser gestor da própria emoção"
+    objetivo: "Levar o usuário a perceber que ele não precisa ser refém das emoções, dos pensamentos e das reações impulsivas."
+    semanas:
+      - foco: "Autoconhecimento emocional"
+        microtemas: ["O que sinto?", "Por que reajo assim?", "Emoção não é fraqueza", "Identificar gatilhos", "Nomear sentimentos"]
+      - foco: "Controle das reações"
+        microtemas: ["Pausar antes de responder", "Não reagir no impulso", "Respiração emocional", "Escolher a resposta", "Diminuir explosões"]
+      - foco: "Pensamentos e emoções"
+        microtemas: ["Pensamentos alimentam emoções", "Diálogo interno", "Crítica interna", "Ruminação mental", "Trocar julgamento por observação"]
+      - foco: "Gestão prática da emoção"
+        microtemas: ["Recuperar o equilíbrio", "Criar rotina emocional", "Pequenas vitórias internas", "Responsabilidade emocional", "Pilotar a própria mente"]
+
+  - mes: Fevereiro
+    tema: "Calma e serenidade"
+    objetivo: "Ajudar o usuário a desacelerar, respirar melhor e responder à vida com mais equilíbrio."
+    semanas:
+      - foco: "Desacelerar"
+        microtemas: ["Pressa emocional", "Cansaço mental", "Silêncio interno", "Respiração consciente", "Menos urgência"]
+      - foco: "Serenidade nas reações"
+        microtemas: ["Não absorver tudo", "Responder com calma", "Evitar conflitos desnecessários", "Reduzir tensão", "Sair do modo alerta"]
+      - foco: "Presença"
+        microtemas: ["Viver o agora", "Fazer uma coisa por vez", "Acalmar o corpo", "Pausar a mente", "Atenção ao presente"]
+      - foco: "Paz no cotidiano"
+        microtemas: ["Criar pequenos rituais", "Evitar excesso de estímulo", "Dormir melhor", "Desligar a mente", "Sustentar serenidade"]
+
+  - mes: Março
+    tema: "Escutar e compreender"
+    objetivo: "Fortalecer relacionamentos por meio da escuta, empatia e comunicação mais consciente."
+    semanas:
+      - foco: "Escuta ativa"
+        microtemas: ["Ouvir sem interromper", "Escutar além das palavras", "Presença na conversa", "Evitar respostas automáticas", "Atenção ao outro"]
+      - foco: "Empatia"
+        microtemas: ["Compreender antes de julgar", "Ver pelo olhar do outro", "Validar sentimentos", "Diminuir críticas", "Humanizar relações"]
+      - foco: "Comunicação saudável"
+        microtemas: ["Falar com clareza", "Falar sem ferir", "Conversas difíceis", "Tom de voz", "Limites com respeito"]
+      - foco: "Relações maduras"
+        microtemas: ["Resolver mal-entendidos", "Pedir desculpas", "Evitar orgulho", "Fortalecer vínculos", "Construir confiança"]
+
+  - mes: Abril
+    tema: "Gentileza e bondade"
+    objetivo: "Estimular uma postura mais generosa consigo, com os outros e com a rotina."
+    semanas:
+      - foco: "Gentileza consigo"
+        microtemas: ["Autocuidado emocional", "Falar melhor consigo", "Menos cobrança", "Respeitar limites", "Acolher falhas"]
+      - foco: "Bondade nas pequenas ações"
+        microtemas: ["Pequenos gestos", "Ajudar sem esperar retorno", "Cordialidade", "Atenção ao próximo", "Presença afetiva"]
+      - foco: "Gentileza nas relações"
+        microtemas: ["Palavras que curam", "Evitar grosseria", "Respeito no conflito", "Cuidado com o tom", "Reconhecer o outro"]
+      - foco: "Impacto da bondade"
+        microtemas: ["Criar ambientes melhores", "Inspirar pessoas", "Quebrar ciclos de dureza", "Ser luz na rotina", "Bondade como força"]
+
+  - mes: Maio
+    tema: "Paciência e o tempo certo"
+    objetivo: "Trabalhar ansiedade, espera, maturidade e confiança nos processos."
+    semanas:
+      - foco: "Aceitar processos"
+        microtemas: ["Nem tudo é imediato", "Respeitar etapas", "Crescimento leva tempo", "Comparação atrapalha", "Maturidade emocional"]
+      - foco: "Ansiedade da espera"
+        microtemas: ["Controlar urgência", "Esperar sem desistir", "Tolerar frustrações", "Respirar na demora", "Não antecipar problemas"]
+      - foco: "Persistência"
+        microtemas: ["Continuar mesmo devagar", "Pequenos avanços", "Constância", "Disciplina emocional", "Confiança no caminho"]
+      - foco: "Tempo certo"
+        microtemas: ["Discernimento", "Saber agir e esperar", "Não forçar ciclos", "Colher no momento certo", "Paciência ativa"]
+
+  - mes: Junho
+    tema: "Perdão e reconciliação"
+    objetivo: "Aliviar pesos emocionais ligados à mágoa, culpa, ressentimento e conflitos mal resolvidos."
+    semanas:
+      - foco: "Entender a mágoa"
+        microtemas: ["O peso do ressentimento", "Feridas emocionais", "Memórias difíceis", "Quando a dor vira prisão", "Reconhecer o que machucou"]
+      - foco: "Perdoar a si mesmo"
+        microtemas: ["Culpa", "Autopunição", "Aprender com erros", "Recomeçar internamente", "Soltar cobranças antigas"]
+      - foco: "Perdoar o outro"
+        microtemas: ["Perdão não é aprovação", "Libertar-se do passado", "Evitar vingança emocional", "Diminuir rancor", "Curar sem negar a dor"]
+      - foco: "Reconciliação e paz"
+        microtemas: ["Reconstruir pontes", "Conversas pendentes", "Limites saudáveis", "Seguir em paz", "Fechar ciclos"]
+
+  - mes: Julho
+    tema: "Gratidão e reconhecimento"
+    objetivo: "Treinar o olhar do usuário para perceber valor, progresso, pessoas e pequenas conquistas."
+    semanas:
+      - foco: "Gratidão pelo simples"
+        microtemas: ["Coisas pequenas", "Valorizar o dia", "Perceber o que existe", "Menos reclamação", "Presença no cotidiano"]
+      - foco: "Reconhecer conquistas"
+        microtemas: ["Pequenos progressos", "Vitórias invisíveis", "Celebrar avanços", "Não minimizar esforço", "Orgulho saudável"]
+      - foco: "Agradecer pessoas"
+        microtemas: ["Reconhecer quem ajuda", "Expressar gratidão", "Fortalecer vínculos", "Valorizar família", "Valorizar amizades"]
+      - foco: "Mudar o olhar"
+        microtemas: ["Reclamação x apreciação", "Foco no que permanece", "Abundância emocional", "Contentamento", "Gratidão como prática"]
+
+  - mes: Agosto
+    tema: "Coragem e autoconfiança"
+    objetivo: "Fortalecer segurança interna, iniciativa e capacidade de agir apesar do medo."
+    semanas:
+      - foco: "Enfrentar medos"
+        microtemas: ["Medo de errar", "Medo de julgamento", "Medo de começar", "Nomear inseguranças", "Agir com medo mesmo"]
+      - foco: "Acreditar em si"
+        microtemas: ["Autoconfiança realista", "Histórico de superação", "Competências pessoais", "Menos comparação", "Voz interna fortalecida"]
+      - foco: "Dar o primeiro passo"
+        microtemas: ["Começar pequeno", "Sair da paralisação", "Decisão", "Movimento", "Quebrar adiamento"]
+      - foco: "Sustentar decisões"
+        microtemas: ["Persistir", "Lidar com críticas", "Defender escolhas", "Manter direção", "Coragem como hábito"]
+
+  - mes: Setembro
+    tema: "Propósito e sentido"
+    objetivo: "Levar o usuário a refletir sobre direção, valores, escolhas e significado da própria vida."
+    semanas:
+      - foco: "Quem sou eu?"
+        microtemas: ["Identidade", "Valores pessoais", "O que importa", "Talentos", "História de vida"]
+      - foco: "O que me move?"
+        microtemas: ["Motivação", "Energia emocional", "Sonhos", "Chamado interno", "Desejos profundos"]
+      - foco: "Viver com intenção"
+        microtemas: ["Escolhas conscientes", "Prioridades", "Rotina com sentido", "Dizer não", "Direcionar energia"]
+      - foco: "Servir com significado"
+        microtemas: ["Contribuição", "Impacto no outro", "Propósito no trabalho", "Propósito na família", "Vida com legado"]
+
+  - mes: Outubro
+    tema: "Resiliência e superação"
+    objetivo: "Ajudar o usuário a lidar com quedas, perdas, frustrações e recomeços com mais força emocional."
+    semanas:
+      - foco: "Lidar com quedas"
+        microtemas: ["Frustração", "Erros", "Perdas", "Dias difíceis", "Aceitar vulnerabilidade"]
+      - foco: "Recomeçar"
+        microtemas: ["Novo passo", "Não se definir pela queda", "Retomar a rota", "Reorganizar emoções", "Voltar ao centro"]
+      - foco: "Aprender com dores"
+        microtemas: ["Dor como professora", "Maturidade", "Crescimento pós-crise", "Ressignificar", "Aprendizado emocional"]
+      - foco: "Transformar desafios"
+        microtemas: ["Força interna", "Superação prática", "Resistência emocional", "Esperança ativa", "Continuar apesar de tudo"]
+
+  - mes: Novembro
+    tema: "Cuidar da mente e dos pensamentos"
+    objetivo: "Trabalhar limpeza mental, qualidade dos pensamentos, foco e proteção contra padrões mentais negativos."
+    semanas:
+      - foco: "Limpeza mental"
+        microtemas: ["Limpar excessos", "Reduzir ruído", "Escolher conteúdos", "Descansar a mente", "Silêncio saudável"]
+      - foco: "Pensamentos tóxicos"
+        microtemas: ["Pensamento catastrófico", "Autocrítica", "Comparação", "Culpa mental", "Medo repetitivo"]
+      - foco: "Foco e clareza"
+        microtemas: ["Atenção", "Organização mental", "Prioridades", "Menos dispersão", "Decisões mais conscientes"]
+      - foco: "Alimentar bons pensamentos"
+        microtemas: ["Palavra interna", "Esperança mental", "Reprogramar padrões", "Visualizar possibilidades", "Mente como jardim"]
+
+  - mes: Dezembro
+    tema: "Esperança, recomeço e paz interior"
+    objetivo: "Fechar o ano com reflexão, renovação, leveza e preparação emocional para um novo ciclo."
+    semanas:
+      - foco: "Fechar ciclos"
+        microtemas: ["Avaliar o ano", "Soltar pesos", "Reconhecer aprendizados", "Encerrar pendências", "Agradecer a caminhada"]
+      - foco: "Renovar esperança"
+        microtemas: ["Olhar para possibilidades", "Recuperar ânimo", "Crer em novos caminhos", "Esperança prática", "Fé no processo"]
+      - foco: "Recomeçar com leveza"
+        microtemas: ["Novas escolhas", "Não repetir padrões", "Preparar o coração", "Reorganizar prioridades", "Recomeço possível"]
+      - foco: "Paz interior"
+        microtemas: ["Silêncio interno", "Desapego", "Perdão final", "Descanso emocional", "Entrar em paz no novo ano"]

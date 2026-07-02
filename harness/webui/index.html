@@ -149,10 +149,14 @@ async function gerar(dia){
   const alvo = dia? $("#gerarDia"):$("#gerar"); const txt=alvo.textContent;
   alvo.innerHTML='<span class="spin"></span>Gerando...';
   try{
-    if(dia) await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
+    let res;
+    if(dia) res = await api("/api/gerar-dia",{method:"POST",headers:{"Content-Type":"application/json"},
         body:JSON.stringify({app:p.app,publico:p.publico,tema:p.tema,dia:p.dia})});
-    else await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
+    else res = await api("/api/gerar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(p)});
     await carregarFila();
+    const arr = Array.isArray(res)?res:[res];
+    const ja = arr.filter(x=>x&&x.ja_existia).length;
+    if(ja) alert(ja+" já existia(m) para esse dia/app/botão — não gerei duplicado (use 'force' se quiser regerar).");
   }catch(e){ alert("Falha ao gerar: "+e.message); }
   finally{ btns.forEach(b=>b.disabled=false); alvo.textContent=txt; }
 }

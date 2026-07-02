@@ -30,8 +30,7 @@ _CONTENT_KEY = os.environ.get("CONTENT_API_KEY")   # auth máquina-a-máquina p/
 @app.middleware("http")
 async def _auth(request: Request, call_next):
     path = request.url.path
-    # Health check do ECS/ALB
-    if path == "/health":
+    if path == "/health":               # health check (sem auth — p/ ALB/ECS/App Runner)
         return await call_next(request)
     # API de entrega (consumida pelo backend do app): autentica por X-API-Key
     if path.startswith("/content/"):
@@ -68,6 +67,7 @@ class GerarReq(BaseModel):
     botao: str = "gestao_emocao"
     tema: str
     dia: int | None = None
+    force: bool = False          # regerar mesmo se já existir
 
 
 class GerarDiaReq(BaseModel):
@@ -75,6 +75,7 @@ class GerarDiaReq(BaseModel):
     publico: str
     tema: str
     dia: int | None = None
+    force: bool = False
 
 
 class FeedbackReq(BaseModel):
@@ -113,18 +114,28 @@ def _gerar_e_salvar(app_: str, publico: str, botao: str, tema: str, dia: int | N
 
 @app.post("/api/gerar")
 def gerar(req: GerarReq) -> dict:
+    if not req.force:
+        jaid = store.existe(req.app, req.publico, req.botao, req.dia)
+        if jaid:                                   # já gerado → não duplica
+            return {**store.get(jaid), "ja_existia": True}
     return _gerar_e_salvar(req.app, req.publico, req.botao, req.tema, req.dia)
 
 
 @app.post("/api/gerar-dia")
 def gerar_dia(req: GerarDiaReq) -> list[dict]:
-    """Gera todos os botões do público (dia completo)."""
+    """Gera todos os botões do público (dia completo), pulando os que já existem."""
     try:
         cfg = config.resolve(req.app, req.publico)
     except ValueError as e:
         raise HTTPException(400, str(e))
-    return [_gerar_e_salvar(req.app, req.publico, b, req.tema, req.dia)
-            for b in cfg["pub_cfg"]["botoes"]]
+    out = []
+    for b in cfg["pub_cfg"]["botoes"]:
+        jaid = None if req.force else store.existe(req.app, req.publico, b, req.dia)
+        if jaid:
+            out.append({**store.get(jaid), "ja_existia": True})
+        else:
+            out.append(_gerar_e_salvar(req.app, req.publico, b, req.tema, req.dia))
+    return out
 
 
 @app.get("/api/itens")
@@ -174,10 +185,13 @@ def content_status(app: str, publico: str) -> dict:
             "completos": sum(1 for d in dias if d["completo"]), "dias": dias}
 
 
-# ---------- front ----------
-@app.get("/health", include_in_schema=False)
-def health():
+# ---------- health check (sem auth) ----------
+@app.get("/health")
+def health() -> dict:
     return {"status": "ok"}
+
+
+# ---------- front ----------
 @app.get("/")
 def index() -> FileResponse:
     return FileResponse(WEBUI / "index.html")

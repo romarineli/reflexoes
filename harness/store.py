@@ -129,6 +129,22 @@ def _row(r: dict) -> dict:
     return r
 
 
+def existe(app: str, publico: str, botao: str, dia: int | None) -> int | None:
+    """id do item já gerado para exatamente (app, público, botão, dia), ou None.
+    Sem dia (None) não há como identificar duplicata → devolve None (sempre gera)."""
+    if dia is None:
+        return None
+    rows = _exec(
+        f"SELECT id FROM itens WHERE app={PH} AND publico={PH} AND botao={PH} AND dia={PH} "
+        f"ORDER BY id DESC", (app, publico, botao, dia), fetch="all")
+    return rows[0]["id"] if rows else None
+
+
+def get(item_id: int) -> dict | None:
+    r = _exec(f"SELECT * FROM itens WHERE id={PH}", (item_id,), fetch="one")
+    return _row(r) if r else None
+
+
 def listar(app: str | None = None, publico: str | None = None,
            status: str | None = None) -> list[dict]:
     """status: 'pendente' | 'avaliado' | None (todos)."""
