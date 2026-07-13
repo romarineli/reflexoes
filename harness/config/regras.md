@@ -34,6 +34,10 @@ garante:
 - **LifeCalm · Calma Noturna (Adultos)** traz referência ao Mestre dos Mestres / mestre do amor.
 - **Exercício Antiestresse** e **Desafio (Kids)** terminam com uma **pergunta de reflexão**
   ligada à própria prática/desafio.
+- **Personalização "você"** (pedido do Augusto, jul/2026): a sintaxe fala DIRETAMENTE com o
+  leitor, como se cada frase fosse montada exclusivamente para a pessoa. Evitar tom de
+  palestra/impessoal ("muitas pessoas...", "vivemos numa época..."). *(Fase futura possível:
+  placeholder `{firstName}` preenchido pelo app.)*
 
 ## Regras duras de vocabulário (proibições)
 
