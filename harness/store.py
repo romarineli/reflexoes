@@ -212,6 +212,28 @@ def dias_aprovados(app: str, publico: str, botoes_esperados: list[str]) -> list[
             for d, b in sorted(cobertura.items())]
 
 
+
+def textos_recentes(app: str, publico: str, botao: str, dia: int,
+                    janela: int = 30) -> list[str]:
+    """Textos dos `janela` dias ANTERIORES a `dia`, do mesmo app/público/botão.
+
+    Serve para o gerador não repetir no dia 54 a pergunta que já fez no dia 53. A janela
+    é curta de propósito: o que incomoda é a repetição perto, não o dia 12 ecoar o 300.
+    Só entram textos que passaram nas regras duras, e um por dia (o mais recente, quando
+    o dia foi regerado).
+    """
+    ini = max(1, dia - janela)
+    q = (f"SELECT dia, texto FROM itens WHERE app={PH} AND publico={PH} AND botao={PH} "
+         f"AND ok=1 AND dia IS NOT NULL AND dia < {PH} AND dia >= {PH} "
+         "ORDER BY dia DESC, id DESC")
+    vistos, out = set(), []
+    for r in _exec(q, (app, publico, botao, dia, ini), fetch="all"):
+        if r["dia"] in vistos:
+            continue
+        vistos.add(r["dia"])
+        out.append(r["texto"])
+    return out
+
 def pushes_irmaos(app: str, publico: str, tema: str, botao_atual: str) -> dict:
     out: dict[str, str] = {}
     for r in listar(app=app, publico=publico):

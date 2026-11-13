@@ -100,6 +100,11 @@ garante:
   "coração mais feliz", "desacelerar", "respire fundo", "paz emocional".
 - **Diversificar** temas: gratidão, esperança, propósito, perdão, coragem, confiança,
   autocompaixão, serenidade.
+- **Não repetir o molde da pergunta** (as primeiras palavras: "Quando foi a última vez
+  que você…", "Quantas vezes você…"). Duas perguntas diferentes que abrem igual soam como
+  a mesma pergunta quando os dias são lidos em sequência — e é assim que a curadoria lê.
+  Isso é regra **dura**, não sugestão: o gerador recebe as perguntas dos 30 dias
+  anteriores, e o texto que repetir um molde é recusado e regerado automaticamente.
 
 ## Diferenciação por público
 

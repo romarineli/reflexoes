@@ -82,6 +82,39 @@ def check(texto: str, app: str, publico: str, botao: str | None = None) -> list[
     return viol
 
 
-def report(texto: str, app: str, publico: str, botao: str | None = None) -> dict:
+def perguntas(texto: str) -> list[str]:
+    """As perguntas do texto, uma por linha (é assim que a reflexão as apresenta)."""
+    return [l.strip() for l in texto.splitlines() if l.strip().endswith("?")]
+
+
+def molde(pergunta: str, palavras: int = 3) -> str:
+    """As primeiras palavras da pergunta, normalizadas.
+
+    É o molde que o leitor percebe repetindo ("quando foi a última vez que você...",
+    "quantas vezes você..."), não a pergunta inteira — duas perguntas diferentes que
+    abrem igual soam como a mesma pergunta quando os dias são lidos em sequência.
+    """
+    t = _norm(re.sub(r"[^\w\s]", " ", pergunta))
+    t = f" {t} ".replace(" vc ", " voce ").replace(" pq ", " porque ")
+    return " ".join(t.split()[:palavras])
+
+
+def repeticoes(texto: str, anteriores: list[str]) -> list[str]:
+    """Moldes de pergunta deste texto que já foram usados nos dias anteriores."""
+    usados = {molde(q) for q in anteriores if q.strip()}
+    achados = []
+    for q in perguntas(texto):
+        m = molde(q)
+        if m and m in usados and m not in achados:
+            achados.append(m)
+    return achados
+
+
+def report(texto: str, app: str, publico: str, botao: str | None = None,
+           anteriores: list[str] | None = None) -> dict:
     v = check(texto, app, publico, botao)
+    # Repetição de molde é regra DURA, como o limite de caracteres: não adianta pedir
+    # variedade no prompt e torcer — quem lê os dias em sequência percebe na hora.
+    for m in repeticoes(texto, anteriores or []):
+        v.append(f'repetição: a pergunta abre como a de um dia recente: "{m}..."')
     return {"ok": not v, "violacoes": v}
