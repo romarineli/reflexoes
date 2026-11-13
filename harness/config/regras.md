@@ -34,6 +34,38 @@ garante:
 - **LifeCalm · Calma Noturna (Adultos)** traz referência ao Mestre dos Mestres / mestre do amor.
 - **Exercício Antiestresse** e **Desafio (Kids)** terminam com uma **pergunta de reflexão**
   ligada à própria prática/desafio.
+- **Push de ausência ≠ push diário** (pedido da curadoria, out/2026): o push de reengajamento
+  **não entrega conteúdo** — ele convida a pessoa a reservar um tempinho e **abrir o app para
+  fazer o exercício da mente**. Não desenvolve nem cita o tema do dia (quem está dias fora não
+  acompanhou os temas) e não soa como variação dos pushes diários.
+- **Push curto de verdade** (out/2026): notificação de celular corta o texto na tela, então o
+  push de ausência tem limite de **90 caracteres** (alvo 55–75, uma frase) e o convite + a
+  chamada para abrir o app precisam caber nos primeiros ~60 caracteres. Os pushes diários
+  seguem em 140 — se a curadoria quiser encurtar também, é só baixar o `max_chars` deles.
+- **Padrão de referência = o punho do Augusto** (30/10/2026): ele reescreveu à mão as
+  ferramentas dos dias 1 a 20 depois de achar que as geradas "perderam a força". Esse
+  material está em `fewshot/mao_augusto.json` e entra no few-shot ANTES de qualquer outro
+  exemplo. Medidas do padrão dele, que valem como régua: Gestão da Emoção 403–728 caracteres
+  (média 527), Exercício Antiestresse 189–432 (média 296), Calma Noturna 100–181 (média 155),
+  Pensamento Diário/frase do dia 56–108 (média 78).
+- **Gestão da Emoção: DUAS perguntas no meio, não uma no fim** (30/10/2026): nas 18
+  ferramentas à mão, 18 têm exatamente duas perguntas provocativas no meio do texto e
+  fecham em afirmação. O comando do próprio Augusto pede "duas perguntas provocativas, uma
+  reflexão transformadora e um exercício prático" com cerca de um minuto de leitura.
+- **Limites de caracteres do cliente (30/10/2026), contando espaços** — Pensamento diário
+  (frase do dia) **99**, Botão Teoria (Gestão da Emoção) **460**, Botão Exercício **370**,
+  Calma Noturna **115**. Vêm da tela do app: o texto tem que caber numa tela só.
+  Exceção: a Calma Noturna de **Kids** não tem limite, porque nela vão Calma + HISTÓRIA +
+  Desafio num bloco só (`publicos.kids.limites`).
+- ⚠️ **O padrão à mão do Augusto NÃO cabe nos limites dele.** Medido: no Botão Teoria só
+  **4 dos 18** textos à mão cabem em 460 (média 527, máximo 693); na Calma Noturna só **2 de
+  16** cabem em 115 (média 155). No Exercício (14/18) e no Pensamento diário (16/17) cabe.
+  Por isso o few-shot só mostra os exemplos à mão que **cabem** no limite vigente — senão o
+  prompt pediria 460 exibindo exemplo de 700, e o modelo seguiria o exemplo.
+- ⚠️ **CONFLITO A DECIDIR — pergunta no fim do Exercício Antiestresse.** Esta regra manda o
+  exercício terminar com pergunta de reflexão, mas **nenhum** dos 18 exercícios escritos à
+  mão pelo Augusto tem pergunta (0/18). Não mexi: a regra veio da curadoria. Letícia precisa
+  dizer qual vale.
 - **Personalização "você"** (pedido do Augusto, jul/2026): a sintaxe fala DIRETAMENTE com o
   leitor, como se cada frase fosse montada exclusivamente para a pessoa. Evitar tom de
   palestra/impessoal ("muitas pessoas...", "vivemos numa época..."). *(Fase futura possível:

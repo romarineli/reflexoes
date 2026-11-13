@@ -9,8 +9,10 @@ from . import client, config, prompt, translate, validate
 
 
 def gerar(app: str, publico: str, botao: str, tema: str,
-          dia: int | None = None, tentativas_limite: int = 3) -> dict:
-    system = prompt.build_system(app, publico, botao, tema)   # valida app/público/botão
+          dia: int | None = None, tentativas_limite: int = 3,
+          evitar_perguntas: list[str] | None = None) -> dict:
+    system = prompt.build_system(app, publico, botao, tema,   # valida app/público/botão
+                                 evitar_perguntas=evitar_perguntas)
     user = prompt.build_user(app, publico, botao, tema, dia)
     texto = client.generate(system, user)
 

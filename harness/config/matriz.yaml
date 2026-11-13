@@ -44,7 +44,7 @@ publicos:
       - "o mestre da sensibilidade"
     diminutivos: permitido
     profundidade: alta
-    reflexao_max_chars: 850      # limite da reflexão (Gestão da Emoção); parágrafos curtos
+    reflexao_max_chars: 460      # limite do cliente (30/10/2026) para o Botão Teoria
     botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
     exercicios_preferidos:
       - diário emocional
@@ -62,7 +62,7 @@ publicos:
     figura_crista: "Jesus Cristo"
     diminutivos: permitido
     profundidade: media
-    reflexao_max_chars: 650
+    reflexao_max_chars: 460      # limite do cliente (30/10/2026)
     botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
     universo:                            # ancorar no dia a dia jovem real
       - ansiedade por resposta
@@ -83,6 +83,8 @@ publicos:
     permite_jesus_cristo: true           # em LifeCalm: "Jesus Cristo", leve
     figura_crista: "Jesus Cristo"
     diminutivos: proibido                # NUNCA corpinho, mãozinha, etc.
+    limites:                             # sobrepõe o max_chars do botão para ESTE público
+      calma_noturna: null                # Kids entrega Calma + HISTÓRIA + Desafio num bloco só
     profundidade: baixa
     reflexao_max_chars: 400
     botoes: [gestao_emocao, exercicio_antiestresse, calma_noturna, historia, desafio, boas_vindas, push_manha, push_meiodia, push_tarde, push_noite, push_ausente]
@@ -105,13 +107,15 @@ publicos:
 botoes:
   gestao_emocao:
     rotulo: "Botão — Gestão da Emoção"
-    descricao: "Reflexão central do dia: 2–4 parágrafos + pergunta provocativa final."
+    descricao: "Reflexão central do dia: abertura concreta + DUAS perguntas provocativas no meio + fechamento em afirmação. Cerca de um minuto de leitura (padrão das ferramentas escritas à mão pelo Augusto, out/2026)."
   exercicio_antiestresse:
     rotulo: "Botão — Exercício Antiestresse"
     descricao: "Prática aplicável do dia. Kids: 'Querida família' + Como aplicar + Por que funciona."
+    max_chars: 370               # limite do cliente (30/10/2026)
   calma_noturna:
     rotulo: "Botão — Calma Noturna"
     descricao: "Fechamento do dia, desaceleração. Ritual breve e acolhedor."
+    max_chars: 115               # limite do cliente (30/10/2026); Kids é exceção (ver publicos.kids.limites)
   historia:
     rotulo: "HISTÓRIA"
     descricao: "Só Kids. Narrativa curta com personagem de nome bíblico, ligada ao tema do dia, com lição."
@@ -121,8 +125,8 @@ botoes:
   # --- Tipos CURTOS (limite de caracteres enforçado) ---
   boas_vindas:
     rotulo: "Frase do dia (tela inicial)"
-    descricao: "Frase única, curta, de impacto, acolhedora e reflexiva — tela inicial do app."
-    max_chars: 120
+    descricao: "Frase única, curta, de impacto, acolhedora e reflexiva — tela inicial do app. No material do Augusto é o 'Pensamento Diário'."
+    max_chars: 99                # limite do cliente (30/10/2026)
   push_manha:
     rotulo: "Push — manhã"
     descricao: "Notificação curta da manhã, dentro do limite de caracteres."
@@ -145,8 +149,8 @@ botoes:
     periodo: noite
   push_ausente:
     rotulo: "Push — ausente (reengajamento)"
-    descricao: "Convite acolhedor para quem está há alguns dias sem abrir o app. Sem culpa/cobrança."
-    max_chars: 140
+    descricao: "Chamada de volta para quem está há alguns dias sem abrir o app: reservar um tempinho + ABRIR O APP e fazer o exercício da mente. Sem culpa/cobrança, sem entregar conteúdo e sem desenvolver o tema do dia."
+    max_chars: 90                # curto de propósito: notificação corta o texto na tela
 
 # ----------------------------------------------------------------------------
 # Tipos de conteúdo transversais
