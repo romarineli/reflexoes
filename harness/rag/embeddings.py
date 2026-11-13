@@ -39,8 +39,16 @@ def _vertex_token() -> str:
             "service-accounts/default/token", headers={"Metadata-Flavor": "Google"})
         with urllib.request.urlopen(req, timeout=2) as r:
             return json.load(r)["access_token"]
-    except Exception:  # local
-        return subprocess.check_output(["gcloud", "auth", "print-access-token"]).decode().strip()
+    except Exception:  # local: credencial do gcloud, ou ADC quando não há login de usuário
+        for cmd in (["gcloud", "auth", "print-access-token"],
+                    ["gcloud", "auth", "application-default", "print-access-token"]):
+            try:
+                return subprocess.check_output(cmd, stderr=subprocess.DEVNULL).decode().strip()
+            except Exception:
+                continue
+        raise RuntimeError(
+            "sem credencial para o Vertex: faça 'gcloud auth login' ou "
+            "'gcloud auth application-default login'")
 
 
 def _vertex(texts: list[str], task: str) -> list[list[float]]:
