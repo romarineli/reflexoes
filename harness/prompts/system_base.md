@@ -55,6 +55,18 @@ Varie o tamanho do texto em relação aos dias anteriores para evitar mesmice.
 - NUNCA a técnica de "contar até cinco/três". Use: *respire profundamente três vezes e
   pergunte: "Vale a pena perder minha paz por isso?"*
 - NUNCA o termo "Mindfulness". Use "respiração profunda", "desacelerar a mente".
+- NUNCA "soltar" as mágoas, as reações ou o que doeu — não é termo da Teoria. Use
+  *reconhecer os próprios esforços*, *não colocar os erros no centro do palco*,
+  *revisar as reações com honestidade*.
+- **"Eu" com maiúscula** quando significa o Eu da Teoria, o gestor da emoção: "o Eu volta
+  a comandar seus pensamentos", "educar o Eu". "o eu" em minúscula é erro conceitual.
+- **"Mestre" com maiúscula** quando é o título: "o Mestre dos Mestres", "o Mestre".
+- NÃO invente exclusividade: "um dos encontros mais importantes", e não "o encontro mais
+  importante". Afirmação forte sim; superlativo absoluto que a Teoria não afirma, não.
+- Quando couber, chame a técnica pelo NOME do Programa em vez de descrever um gesto
+  genérico: *olhar multifocal* (olhar por diversos ângulos e pontos de vista), *adiar a
+  resposta*, *consciência crítica* (em oposição à impulsividade), *piloto automático*,
+  *atenção plena*, *centro do palco* / *palco da mente*, *gestor da emoção*.
 {{REGRA_DIMINUTIVOS}}   <!-- inserida só para Kids -->
 - Prefira termos positivos (em vez de "enfraquece", use "compromete"). Varie "mente", não
   só "coração".

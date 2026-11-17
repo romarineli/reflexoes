@@ -81,6 +81,9 @@ garante:
 3. **Nunca** o termo "Mindfulness". Usar "respiração profunda", "desacelerar a mente",
    "desacelerar os batimentos cardíacos".
 4. **Nunca** diminutivos nos textos de **Kids** (corpinho, mãozinha, etc.).
+5. **Nunca** "soltar" as mágoas / as reações / o que doeu. Não é termo da Teoria (revisão da
+   curadoria, 17/11). Usar o vocabulário do método: *reconhecer os próprios esforços*,
+   *não colocar os erros no centro do palco*, *revisar as reações com honestidade*.
 
 ## Regras de religião (dependem de app + público)
 
@@ -118,11 +121,25 @@ garante:
   = texto reflexivo + **história** (personagens de nomes bíblicos) + **desafio** executável.
   Leitura próxima e visual.
 
+## Grafia e precisão conceitual (revisão da curadoria, 17/11)
+
+- **"Eu" com maiúscula** sempre que significa o Eu da Teoria — o gestor da emoção:
+  "o Eu volta a comandar seus pensamentos", "educar o Eu", "dar ao Eu a oportunidade de
+  participar das próprias escolhas". "o eu" em minúscula é erro conceitual, não de estilo.
+- **"Mestre" com maiúscula** quando é o título: "o Mestre dos Mestres", "o Mestre".
+- **Nada de superlativo absoluto** onde a Teoria não afirma isso. "o encontro mais
+  importante que você tem consigo mesmo" virou "**um dos** encontros mais importantes".
+  Vale como princípio: afirmação forte sim, exclusividade inventada não.
+- **Chamar as técnicas pelo nome** do Programa de Gestão da Emoção, em vez de descrever um
+  gesto genérico: *olhar multifocal* (olhar por diversos ângulos e pontos de vista),
+  *adiar a resposta*, *consciência crítica* (em oposição a impulsividade), *piloto
+  automático*, *atenção plena*, *centro do palco* / *palco da mente*, *gestor da emoção*.
+
 ## Conceitos do método a incorporar (Gestão da Emoção)
 
 Ao longo dos dias, em linguagem adaptada: "Eu como gestor da emoção", "Filtrar estímulos
 estressantes", "Proteger a janela da memória", "Gerenciar pensamentos", "Autodiálogo",
-"Mesa-redonda do eu", "Construção da autoestima", "Fenômeno RAM".
+"Mesa-redonda do Eu", "Construção da autoestima", "Fenômeno RAM".
 
 ## Diretrizes de produto (Considerações IA) — para a evolução
 
@@ -141,3 +158,15 @@ Não bloqueiam a geração v1, mas guiam a calibração:
 - [ ] Grafia/identidade final dos apps e qual linha pertence a cada um (assumido:
       SpotCalm = geral, LifeCalm = cristão).
 - [ ] Lista oficial de temas por dia / jornada (há `365_temas_gestao_emocao...pdf` no material).
+
+Da revisão de 17/11 (arquivo `reflexoes-10-ferramentas_Adri.docx`) — a revisão contraria
+três regras que vieram da própria curadoria. **Não foram alteradas**, porque a decisão é
+dela:
+
+- [ ] **Quantas perguntas no Botão Teoria.** A regra diz DUAS, no meio do texto. A revisão
+      acrescentou uma terceira (dia 63) e duas no dia 61, chegando a quatro.
+- [ ] **Limite do Pensamento diário (99 caracteres).** As sugestões da revisão para os dias
+      55, 57, 62 e 63 passam de 99 contando espaços.
+- [ ] **Quantas opções no Botão Exercício.** A regra diz no máximo duas. A revisão montou
+      quatro passos no dia 57 (incluindo o olhar multifocal e o adiar a resposta), e com
+      isso o bloco passou dos 370 caracteres.
