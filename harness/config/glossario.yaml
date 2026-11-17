@@ -34,6 +34,27 @@ proibidos_globais:
   - termo: "conte até 3"
     motivo: "Técnica proibida (variações de contagem)."
     usar: ["respire profundamente três vezes"]
+  # "soltar" não é termo da Teoria (revisão da curadoria, 17/11). Só as colocações, para
+  # não barrar o uso legítimo do verbo ("solte o ar devagar") na respiração.
+  - termo: "soltar as mágoas"
+    motivo: "Não é termo da Teoria."
+    usar: ["reconhecer os próprios esforços",
+           "não colocar os erros no centro do palco",
+           "revisar as reações com honestidade"]
+  - termo: "solte as mágoas"
+    motivo: "Não é termo da Teoria."
+    usar: ["reconheça seus esforços", "revise suas reações com honestidade"]
+  - termo: "soltar as reações"
+    motivo: "Não é termo da Teoria."
+    usar: ["revisar as reações com honestidade e compreensão"]
+  - termo: "solte as reações"
+    motivo: "Não é termo da Teoria."
+    usar: ["revise suas reações com honestidade e compreensão"]
+  # Superlativo absoluto que a Teoria não afirma (revisão da curadoria, 17/11). O modelo
+  # reincide nesta frase porque ela está no material; só a regra dura segura.
+  - termo: "encontro mais importante"
+    motivo: "A Teoria não afirma exclusividade: é um dos mais importantes."
+    usar: ["um dos encontros mais importantes que você tem consigo mesmo"]
 
 # Religião — proibições CONDICIONAIS (dependem de app + público).
 # Regra: aplicar `proibidos` quando a condição casar.
