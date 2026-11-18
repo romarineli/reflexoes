@@ -34,6 +34,14 @@ garante:
 - **LifeCalm · Calma Noturna (Adultos)** traz referência ao Mestre dos Mestres / mestre do amor.
 - **Exercício Antiestresse** e **Desafio (Kids)** terminam com uma **pergunta de reflexão**
   ligada à própria prática/desafio.
+- **Push de ausência ≠ push diário** (pedido da curadoria, out/2026): o push de reengajamento
+  **não entrega conteúdo** — ele convida a pessoa a reservar um tempinho e **abrir o app para
+  fazer o exercício da mente**. Não desenvolve nem cita o tema do dia (quem está dias fora não
+  acompanhou os temas) e não soa como variação dos pushes diários.
+- **Push curto de verdade** (out/2026): notificação de celular corta o texto na tela, então o
+  push de ausência tem limite de **90 caracteres** (alvo 55–75, uma frase) e o convite + a
+  chamada para abrir o app precisam caber nos primeiros ~60 caracteres. Os pushes diários
+  seguem em 140 — se a curadoria quiser encurtar também, é só baixar o `max_chars` deles.
 - **Personalização "você"** (pedido do Augusto, jul/2026): a sintaxe fala DIRETAMENTE com o
   leitor, como se cada frase fosse montada exclusivamente para a pessoa. Evitar tom de
   palestra/impessoal ("muitas pessoas...", "vivemos numa época..."). *(Fase futura possível:

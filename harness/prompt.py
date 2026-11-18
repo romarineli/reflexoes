@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+import zlib
 from pathlib import Path
 
 from . import config, store
@@ -89,11 +90,29 @@ def _bloco_religiao(app: str, publico: str) -> str:
     return ""
 
 
+# Ângulos de abertura do push de ausência — rotação determinística pelo tema, para que a
+# pessoa (que recebe esse push a cada ausência) nunca veja sempre a mesma fórmula.
+_ABERTURAS_AUSENTE = [
+    "comece pelo CONVITE ao tempo para si (ex.: 'Reserve um minuto...', 'Um minuto só seu...')",
+    "comece pela PRÁTICA QUE A ESPERA no app (ex.: 'Tem um exercício esperando por você...')",
+    "comece por uma PERGUNTA CURTA dirigida a ela (sem usar a fórmula 'Que tal...')",
+    "comece pela PORTA ABERTA / o app continuar ali por ela, e só depois faça o convite",
+    "comece pelo que ela GANHA ao voltar (uma mente mais leve, um minuto de calma)",
+]
+
+
+def _abertura_ausente(tema: str) -> str:
+    """Ângulo de abertura do push de ausência, girado de forma estável pelo tema do dia."""
+    i = zlib.crc32((tema or "").encode("utf-8")) % len(_ABERTURAS_AUSENTE)
+    return _ABERTURAS_AUSENTE[i]
+
+
 # Parágrafos sugeridos por profundidade do público (reflexão da Gestão da Emoção)
 _PARAGRAFOS = {"alta": "3 a 4 parágrafos", "media": "2 a 3 parágrafos", "baixa": "2 a 3 frases simples e visuais"}
 
 
-def _formato_botao(botao: str, app: str, publico: str, pub_cfg: dict, botao_cfg: dict | None) -> str:
+def _formato_botao(botao: str, app: str, publico: str, pub_cfg: dict, botao_cfg: dict | None,
+                   tema: str = "") -> str:
     rotulo = (botao_cfg or {}).get("rotulo", botao)
     prof = pub_cfg.get("profundidade", "media")
     is_kids = "historia" in pub_cfg["botoes"]
@@ -106,11 +125,30 @@ def _formato_botao(botao: str, app: str, publico: str, pub_cfg: dict, botao_cfg:
                 "Sem aspas, sem emojis, sem pergunta. Apenas a frase.")
     if botao == "push_ausente":
         return (f"**{rotulo}** — Gere o texto de UMA notificação push de REENGAJAMENTO, para "
-                "quem está há alguns dias sem abrir o app: acolhedora e gentil, SEM culpa e SEM "
-                "cobrança (nada de 'sentimos sua falta' em tom de dívida ou 'você sumiu') — um "
-                "convite leve a voltar a cuidar da própria emoção, como quem deixa a porta aberta. "
-                f"Pode usar o tema como gancho sutil. **No máximo {lim} caracteres.** "
-                "Uma frase, sem aspas, sem emojis. Apenas o texto da notificação.")
+                "quem está há alguns dias sem abrir o app.\n"
+                "Esta notificação é de OUTRA CATEGORIA — ela NÃO é o push do dia e NÃO entrega "
+                "conteúdo nem reflexão. Ela faz uma coisa só: CHAMAR a pessoa de volta.\n"
+                "Precisa conter OBRIGATORIAMENTE os dois elementos:\n"
+                "1. o convite a reservar um minuto só para ela (um minuto já basta);\n"
+                "2. a chamada para ABRIR O APP e fazer a prática / o exercício da mente que "
+                "está esperando por ela.\n"
+                "Tom: acolhedor e gentil, SEM culpa e SEM cobrança (nada de 'sentimos sua "
+                "falta' em tom de dívida, 'você sumiu', 'faz tempo que você não aparece') — "
+                "como quem deixa a porta aberta, não como quem cobra presença.\n"
+                "NÃO desenvolva o tema do dia nem o cite literalmente: quem está dias fora não "
+                "acompanhou os temas. O tema serve, no máximo, como inspiração do que a espera "
+                "lá dentro.\n"
+                f"ABERTURA DESTA VEZ — {_abertura_ausente(tema)}. A pessoa recebe este push "
+                "toda vez que fica dias fora, então ele NÃO pode ter bordão: siga o ângulo de "
+                "abertura indicado e não repita fórmula de outras gerações.\n"
+                "TAMANHO — notificação de celular corta o texto: escreva CURTO.\n"
+                f"Ideal entre 55 e 75 caracteres; **nunca passe de {lim}**. UMA frase só "
+                "(no máximo duas de poucas palavras), sem subordinada e sem explicação.\n"
+                "Os primeiros ~60 caracteres precisam já conter o convite E a chamada para "
+                "abrir o app: o que vier depois pode nem aparecer na tela.\n"
+                "Corte o que não é essencial: adjetivo decorativo, 'que deixa sua mente mais "
+                "leve', 'quando quiser', repetição da mesma ideia em outras palavras.\n"
+                "Sem aspas, sem emojis. Apenas o texto da notificação.")
     if botao.startswith("push_"):
         periodo = (botao_cfg or {}).get("periodo", "")
         return (f"**{rotulo}** — Gere o texto de UMA notificação push para o período: "
@@ -185,7 +223,7 @@ def build_system(app: str, publico: str, botao: str, tema: str) -> str:
 
     fewshot_pos, fewshot_neg = _fewshot_dinamico(app, publico, botao)
 
-    formato = _formato_botao(botao, app, publico, pub_cfg, r["botao_cfg"])
+    formato = _formato_botao(botao, app, publico, pub_cfg, r["botao_cfg"], tema)
     if botao.startswith("push_"):
         try:
             irmaos = store.pushes_irmaos(app, publico, tema, botao)
@@ -193,8 +231,13 @@ def build_system(app: str, publico: str, botao: str, tema: str) -> str:
             irmaos = {}
         if irmaos:
             linhas = "\n".join(f'- ({b.replace("push_", "")}) "{t}"' for b, t in irmaos.items())
-            formato += ("\n\nJÁ EXISTEM estes pushes para o mesmo dia/tema — comece de forma "
-                        "DIFERENTE e varie o tom; NÃO repita a abertura nem o bordão deles:\n" + linhas)
+            if botao == "push_ausente":
+                formato += ("\n\nEstes são os pushes DIÁRIOS deste dia/tema. O seu é de outra "
+                            "categoria (reengajamento): NÃO soe como uma variação deles — nem a "
+                            "abertura, nem o bordão, nem a mesma promessa de conteúdo:\n" + linhas)
+            else:
+                formato += ("\n\nJÁ EXISTEM estes pushes para o mesmo dia/tema — comece de forma "
+                            "DIFERENTE e varie o tom; NÃO repita a abertura nem o bordão deles:\n" + linhas)
 
     subs = {
         "{{RAG_TRECHOS}}": _rag_trechos(app, tema),
