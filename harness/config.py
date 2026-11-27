@@ -61,11 +61,15 @@ def limite_chars(publico: str, botao: str) -> int | None:
     - reflexão (gestao_emocao): escala por público (reflexao_max_chars).
     """
     m = matriz()
+    pub = m["publicos"].get(publico, {}) or {}
+    override = pub.get("limites") or {}
+    if botao in override:               # null no YAML = sem limite para este público
+        return override[botao] or None
     b = m["botoes"].get(botao, {}) or {}
     if b.get("max_chars"):
         return b["max_chars"]
     if botao == "gestao_emocao":
-        return m["publicos"].get(publico, {}).get("reflexao_max_chars")
+        return pub.get("reflexao_max_chars")
     return None
 
 
